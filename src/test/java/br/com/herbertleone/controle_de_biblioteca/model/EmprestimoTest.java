@@ -116,7 +116,7 @@ class EmprestimoTest {
     void deveRealizarDevolucaoTrintaDiasAposADataPrevistaComMulta(){
         Emprestimo emprestimo = EmprestimoBuilder.umEmprestimo().constroi();
 
-        LocalDate dataDeEmprestimo = LocalDate.of(2020, 10, 23);
+        LocalDate dataDeEmprestimo = LocalDate.of(2020, 10, 16);
         LocalDate dataDeDevolucao = LocalDate.of(2020,11,22);
         emprestimo.setDataDeEmprestimo(dataDeEmprestimo);
         emprestimo.setDataDeDevolucao(dataDeDevolucao);
