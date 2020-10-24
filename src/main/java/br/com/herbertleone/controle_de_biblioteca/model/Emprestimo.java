@@ -30,8 +30,12 @@ public class Emprestimo {
     private BigDecimal valorDoAluguel;
 
     public Emprestimo() {
-        this.dataDeDevolucaoPrevista = getDataDeDevolucao().plusDays(7);
-        this.valorDoAluguel = new BigDecimal('5');
+    }
+
+    public Emprestimo(LocalDate dataDeEmprestimo) {
+        this.dataDeEmprestimo = dataDeEmprestimo;
+        this.dataDeDevolucaoPrevista = dataDeEmprestimo.plusDays(7);
+        this.valorDoAluguel = new BigDecimal(5.0);
     }
 
     public Integer getId() {
@@ -47,7 +51,7 @@ public class Emprestimo {
     }
 
     public void setUsuario(Usuario usuario) {
-        if (usuario.getEmprestimos().size() > 2 ) {
+        if (usuario.getEmprestimos().size() > 2) {
             throw new IllegalArgumentException("O usuário só pode ter no máximo 2 empréstimos");
         }
         this.usuario = usuario;
@@ -59,6 +63,7 @@ public class Emprestimo {
 
     public void setDataDeEmprestimo(LocalDate dataDeEmprestimo) {
         this.dataDeEmprestimo = dataDeEmprestimo;
+        this.setDataDeDevolucaoPrevista(dataDeEmprestimo.plusDays(7));
     }
 
     public LocalDate getDataDeDevolucao() {
@@ -66,6 +71,9 @@ public class Emprestimo {
     }
 
     public void setDataDeDevolucao(LocalDate dataDeDevolucao) {
+        if (dataDeDevolucao.isBefore(getDataDeEmprestimo())) {
+            throw new IllegalArgumentException("A data de devolução deve ser após a data do empréstimo");
+        }
         this.dataDeDevolucao = dataDeDevolucao;
     }
 
@@ -84,15 +92,21 @@ public class Emprestimo {
         return dataDeDevolucaoPrevista;
     }
 
-    public BigDecimal getValorDoAluguel(LocalDate dataAtual) {
-        Period periodo = Period.between(getDataDeDevolucao(), dataAtual);
-        BigDecimal multa = new BigDecimal(0.4);
+    public void setDataDeDevolucaoPrevista(LocalDate dataDeDevolucaoPrevista) {
+        this.dataDeDevolucaoPrevista = dataDeDevolucaoPrevista;
+    }
 
-        if(periodo.getDays() <= 7){
-            multa.multiply(new BigDecimal(periodo.getDays()));
-        }else{
-            multa.multiply(new BigDecimal(7));
+    public BigDecimal getValorDoAluguel() {
+        Period periodo = Period.between(getDataDeDevolucaoPrevista(), getDataDeDevolucao());
+        BigDecimal multa = new BigDecimal(0.4);
+        if(periodo.getDays() < 0){
+            return this.valorDoAluguel;
+        } else if (periodo.getDays() > 7) {
+            BigDecimal valorAPagar = new BigDecimal(3);
+            return this.valorDoAluguel = this.valorDoAluguel.add(valorAPagar);
+        } else {
+            BigDecimal valorAPagar = multa.multiply(new BigDecimal(periodo.getDays()));
+            return this.valorDoAluguel = this.valorDoAluguel.add(valorAPagar);
         }
-        return this.valorDoAluguel.add(multa);
     }
 }
