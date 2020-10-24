@@ -78,48 +78,47 @@ class EmprestimoTest {
 
     @Test
     void deveRealizarDevolucaoAntesDaDataPrevista(){
-        Usuario usuario = UsuarioBuilder.umUsuario().comUmEmprestimo().constroi();
         Emprestimo emprestimo = EmprestimoBuilder.umEmprestimo().constroi();
 
         LocalDate dataDeEmprestimo = LocalDate.of(2020, 10, 23);
         LocalDate dataDeDevolucao = LocalDate.of(2020,10,25);
+        emprestimo.setDataDeEmprestimo(dataDeEmprestimo);
         emprestimo.setDataDeDevolucao(dataDeDevolucao);
 
-        Assertions.assertEquals(new BigDecimal(5), emprestimo.getValorDoAluguel());
+        Assertions.assertEquals(5, emprestimo.getValorDoAluguel().doubleValue(), 0.001);
     }
 
     @Test
     void deveRealizarDevolucaoNaDataPrevista(){
-        Usuario usuario = UsuarioBuilder.umUsuario().comUmEmprestimo().constroi();
         Emprestimo emprestimo = EmprestimoBuilder.umEmprestimo().constroi();
 
         LocalDate dataDeEmprestimo = LocalDate.of(2020, 10, 23);
-        LocalDate dataDeDevolucaoPrevista = LocalDate.of(2020,10,30);
-        emprestimo.setDataDeDevolucao(dataDeDevolucaoPrevista);
+        LocalDate dataDeDevolucao = LocalDate.of(2020,10,30);
+        emprestimo.setDataDeEmprestimo(dataDeEmprestimo);
+        emprestimo.setDataDeDevolucao(dataDeDevolucao);
 
         Assertions.assertEquals(5, emprestimo.getValorDoAluguel().doubleValue(), 0.001);
     }
 
     @Test
     void deveRealizarDevolucaoUmDiaAposADataPrevistaComMulta(){
-        Usuario usuario = UsuarioBuilder.umUsuario().comUmEmprestimo().constroi();
         Emprestimo emprestimo = EmprestimoBuilder.umEmprestimo().constroi();
 
         LocalDate dataDeEmprestimo = LocalDate.of(2020, 10, 23);
-        LocalDate dataDeDevolucaoPrevista = LocalDate.of(2020,10,31);
-        emprestimo.setDataDeDevolucao(dataDeDevolucaoPrevista);
+        LocalDate dataDeDevolucao = LocalDate.of(2020,10,31);
+        emprestimo.setDataDeEmprestimo(dataDeEmprestimo);
+        emprestimo.setDataDeDevolucao(dataDeDevolucao);
 
         Assertions.assertEquals(5.40, emprestimo.getValorDoAluguel().doubleValue(), 0.001);
     }
 
     @Test
     void deveRealizarDevolucaoTrintaDiasAposADataPrevistaComMulta(){
-        Usuario usuario = UsuarioBuilder.umUsuario().comUmEmprestimo().constroi();
         Emprestimo emprestimo = EmprestimoBuilder.umEmprestimo().constroi();
 
-        LocalDate dataDeDevolucaoPrevista = LocalDate.of(2020, 10, 23);
+        LocalDate dataDeEmprestimo = LocalDate.of(2020, 10, 23);
         LocalDate dataDeDevolucao = LocalDate.of(2020,11,22);
-        emprestimo.setDataDeDevolucaoPrevista(dataDeDevolucaoPrevista);
+        emprestimo.setDataDeEmprestimo(dataDeEmprestimo);
         emprestimo.setDataDeDevolucao(dataDeDevolucao);
 
         Assertions.assertEquals(8.00, emprestimo.getValorDoAluguel().doubleValue(), 0.001);

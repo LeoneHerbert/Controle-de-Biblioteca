@@ -99,14 +99,15 @@ public class Emprestimo {
     public BigDecimal getValorDoAluguel() {
         Period periodo = Period.between(getDataDeDevolucaoPrevista(), getDataDeDevolucao());
         BigDecimal multa = new BigDecimal(0.4);
-        if(periodo.getDays() < 0){
-            return this.valorDoAluguel;
+        System.out.println(periodo.getDays());
+        if(periodo.getDays() > 0 && periodo.getDays() <= 7){
+            BigDecimal valorAPagar = multa.multiply(new BigDecimal(periodo.getDays()));
+            return this.valorDoAluguel = this.valorDoAluguel.add(valorAPagar);
         } else if (periodo.getDays() > 7) {
             BigDecimal valorAPagar = new BigDecimal(3);
             return this.valorDoAluguel = this.valorDoAluguel.add(valorAPagar);
         } else {
-            BigDecimal valorAPagar = multa.multiply(new BigDecimal(periodo.getDays()));
-            return this.valorDoAluguel = this.valorDoAluguel.add(valorAPagar);
+            return this.valorDoAluguel;
         }
     }
 }
