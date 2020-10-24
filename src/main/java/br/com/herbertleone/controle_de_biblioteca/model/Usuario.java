@@ -20,5 +20,6 @@ public class Usuario {
     private String matricula;
 
     @Size(max=2)
+    @OneToMany
     private Set<Emprestimo> emprestimos = new LinkedHashSet<>();
 }
