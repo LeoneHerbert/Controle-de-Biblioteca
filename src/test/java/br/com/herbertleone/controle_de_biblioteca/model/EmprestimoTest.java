@@ -36,6 +36,8 @@ class EmprestimoTest {
         LocalDate dataDeEmprestimo = LocalDate.of(2020, 10, 23);
         LocalDate dataDeDevolucaoPrevista = LocalDate.of(2020,10,30);
 
+        emprestimo.setDataDeEmprestimo(dataDeEmprestimo);
+
         Assertions.assertEquals(emprestimo.getDataDeDevolucaoPrevista(), dataDeDevolucaoPrevista);
 
     }
