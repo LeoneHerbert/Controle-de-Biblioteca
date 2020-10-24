@@ -99,7 +99,7 @@ public class Emprestimo {
     public BigDecimal getValorDoAluguel() {
         Period periodo = Period.between(getDataDeDevolucaoPrevista(), getDataDeDevolucao());
         BigDecimal multa = new BigDecimal(0.4);
-        System.out.println(periodo.getDays());
+
         if(periodo.getDays() > 0 && periodo.getDays() <= 7){
             BigDecimal valorAPagar = multa.multiply(new BigDecimal(periodo.getDays()));
             return this.valorDoAluguel = this.valorDoAluguel.add(valorAPagar);
